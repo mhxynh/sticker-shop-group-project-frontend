@@ -8,9 +8,9 @@ import StickerGridItem from '@/components/StickerGridItem.vue'
     <CoreNavbar />
     <div class="container">
       <div class="row row-cols-auto gy-4">
-        <li v-for="i in 10" :key="i">
+        <div v-for="i in 10" :key="i">
           <StickerGridItem :text="`sample text ${i}`" />
-        </li>
+        </div>
       </div>
     </div>
   </main>
