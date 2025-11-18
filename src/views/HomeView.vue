@@ -6,20 +6,15 @@ import StickerGridItem from '@/components/StickerGridItem.vue'
 <template>
   <main>
     <CoreNavbar />
-    <div class="more-grids">
-      <StickerGridItem text="sample text" />
-      <StickerGridItem text="sample text2" />
-      <StickerGridItem text="sample text3" />
-      <StickerGridItem text="sample text4" />
+    <div class="container">
+      <div class="row row-cols-auto gy-4">
+        <li v-for="i in 10" :key="i">
+          <StickerGridItem :text="`sample text ${i}`" />
+        </li>
+      </div>
     </div>
   </main>
 </template>
 
 <style scoped>
-.more-grids {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  width: 50vw;
-  gap: 32px;
-}
 </style>
