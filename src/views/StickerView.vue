@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import CoreNavbar from '@/components/CoreNavbar.vue'
-import jotchua from '@/assets/jotchua.jpg'
 import { onBeforeMount, ref } from 'vue';
 import { API_URL } from '@/config';
 import { useRoute } from 'vue-router';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import StickerImage from '@/components/StickerImage.vue';
 
 const route = useRoute();
 
@@ -13,21 +12,7 @@ const description = ref("");
 const stickerType = ref("");
 const stickerData = ref("");
 const stickerShape = ref("square");
-
-const getStickerIcon = (shape: string) => {
-  switch (shape) {
-    case "square":
-      return "fa-square"
-    case "circle":
-      return "fa-circle"
-    case "triangle":
-      return "fa-play" // triangle is a pro icon, but we can use the play icon and rotate it
-    case "heart":
-      return "fa-heart"
-    default: 
-      return "fa-square"
-  }
-}
+const color = ref("red");
 
 onBeforeMount(async () => {
   const sticker_id = route.params.id;
@@ -56,14 +41,12 @@ onBeforeMount(async () => {
   <CoreNavbar />
   <div class="container">
     <div class="sticker-container">
-      <!-- default rotation is undefined because the component doesn't support "0" rotation -->
-      <FontAwesomeIcon
-        v-if="stickerType==='polygonal'"
-        :icon="getStickerIcon(stickerShape)"
-        :rotation="stickerShape === 'triangle' ? 270 : undefined"
-        class="sticker-icon"
+      <StickerImage 
+        :sticker-type="stickerType"
+        :image-data="stickerData"
+        :shape="stickerShape"
+        :color="color"
       />
-      <img v-if="stickerType==='image'" :src="jotchua" class="sticker-image" />
     </div>
     <div>
       <h2 class="mb-10">{{ stickerName }}</h2>
@@ -87,15 +70,5 @@ onBeforeMount(async () => {
   border: 1px solid gray;
   border-radius: 8px;
   padding: 16px;
-}
-
-.sticker-icon {
-  width: 100%;
-  height: 100%;
-  color: red
-}
-
-.sticker-image {
-  width: 100%;
 }
 </style>
