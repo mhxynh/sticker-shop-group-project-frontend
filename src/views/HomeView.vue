@@ -30,8 +30,8 @@ onBeforeMount(async () => {
   <main>
     <CoreNavbar />
     <div class="container">
-      <div class="row row-cols-auto gy-4">
-        <div v-for="sticker in stickers" :key="sticker">
+      <div class="row gy-4">
+        <div v-for="sticker in stickers" :key="sticker" class="col-6 col-md-4 col-lg-3">
           <!-- we should probably should flatten the object out -->
           <StickerGridItem 
             :name="sticker.name"
