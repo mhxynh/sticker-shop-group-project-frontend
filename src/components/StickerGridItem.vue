@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import StickerImage from './StickerImage.vue';
 
 defineProps<{
-  image?: string
-  text: string
+  name: string;
+  stickerType: string
+  imageData?: string
+  shape?: string
+  color?: string
 }>()
 
 
@@ -18,9 +22,16 @@ function pickColor(c: string) {
 <template>
   <div class="sticker-grid-item">
     <div class="sticker-image-container" :style="{ boxShadow: `0 0 0 6px ${selectedColor}` }">
-      <img src="https://picsum.photos/250/250" class="sticker-image" />
+      <StickerImage
+        :sticker-type="stickerType"
+        :image-data="imageData"
+        :shape="shape"
+        color="red"
+      />
     </div>
-
+    <div class="sticker-name">
+      {{ name }}
+    </div>
     <div class="color-palette">
       <button
         v-for="c in colors"
@@ -31,10 +42,6 @@ function pickColor(c: string) {
         :aria-label="'Pick color ' + c"
         type="button"
       ></button>
-    </div>
-
-    <div class="sticker-text">
-      {{ text }}
     </div>
   </div>
 </template>
@@ -50,12 +57,14 @@ function pickColor(c: string) {
 }
 
 .sticker-image-container {
+  aspect-ratio: 1/1;
+  width: 100%;
+  height: 100%;
   margin-bottom: 8px;
   border-radius: 10px;
   overflow: hidden;
 }
-
-.sticker-text {
+.sticker-name {
   font-weight: bold;
 }
 
