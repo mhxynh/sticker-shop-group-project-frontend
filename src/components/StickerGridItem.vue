@@ -48,7 +48,7 @@ function pickColor(color: string) {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .sticker-grid-item {
   display: flex;
   flex-direction: column;
@@ -56,6 +56,13 @@ function pickColor(color: string) {
   border: 1px rgb(161, 157, 157) solid;
   border-radius: 12px;
   box-shadow: 2px 2px 4px rgb(116, 115, 115);
+
+  transition: box-shadow 0.15s ease;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 2px 2px 8px black;
+  }
 }
 
 .sticker-image-container {
