@@ -1,40 +1,49 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import StickerImage from './StickerImage.vue';
 
-defineProps<{
-  image?: string
-  text: string
+const props = defineProps<{
+  name: string;
+  stickerType: string
+  imageData?: string
+  shape?: string
 }>()
 
+// colors currently in the db
+const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'black', 'white']
+const selectedColor = ref("red");
 
-const colors = ['white', 'black', 'yellow', 'cyan', 'pink', 'red', 'grey']
-const selectedColor = ref('white')
-
-function pickColor(c: string) {
-  selectedColor.value = c
+function pickColor(color: string) {
+  selectedColor.value = color
 }
 </script>
 
 <template>
   <div class="sticker-grid-item">
-    <div class="sticker-image-container" :style="{ boxShadow: `0 0 0 6px ${selectedColor}` }">
-      <img src="https://picsum.photos/250/250" class="sticker-image" />
+    <div
+      class="sticker-image-container"
+      :style="{ backgroundColor: (selectedColor === 'white' ? '#EEE' : 'white') }"
+    >
+      <StickerImage
+        :sticker-type="stickerType"
+        :image-data="imageData"
+        :shape="shape"
+        :color="selectedColor"
+      />
     </div>
-
-    <div class="color-palette">
+    <div class="sticker-name">
+      {{ name }}
+    </div>
+    <div v-if="stickerType === 'polygonal'" class="color-palette container row">
       <button
-        v-for="c in colors"
-        :key="c"
-        class="color-swatch"
-        :style="{ backgroundColor: c }"
-        @click="pickColor(c)"
-        :aria-label="'Pick color ' + c"
+        v-for="color in colors"
+        :key="color"
+        class="color-swatch col-2"
+        :style="{ backgroundColor: color }"
+        @click="pickColor(color)"
+        :aria-label="'Pick color ' + color"
         type="button"
       ></button>
-    </div>
-
-    <div class="sticker-text">
-      {{ text }}
     </div>
   </div>
 </template>
@@ -50,12 +59,14 @@ function pickColor(c: string) {
 }
 
 .sticker-image-container {
+  aspect-ratio: 1/1;
+  width: 100%;
+  height: 100%;
   margin-bottom: 8px;
   border-radius: 10px;
   overflow: hidden;
 }
-
-.sticker-text {
+.sticker-name {
   font-weight: bold;
 }
 
