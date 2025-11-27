@@ -74,7 +74,7 @@ onBeforeMount(async () => {
         :color="selectedColor"
       />
     </div>
-    <div class="card container-fluid">
+    <div class="card container-fluid p-3">
       <h2 class="mb-2">{{ stickerName }}</h2>
       <p>{{ description }}</p>
       <p class="fw-light">By: {{ creator }}</p>

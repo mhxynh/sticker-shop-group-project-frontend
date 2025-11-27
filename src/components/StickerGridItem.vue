@@ -12,7 +12,7 @@ defineProps<{
 <template>
   <div class="sticker-grid-item">
     <div
-      class="sticker-image-container"
+      class="sticker-image-container d-flex"
     >
       <StickerImage
         :sticker-type="stickerType"

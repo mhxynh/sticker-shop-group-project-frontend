@@ -43,6 +43,7 @@ const getStickerIcon = () => {
 <style scoped>
 .sticker-image {
   width: 100%;
+  margin: auto;
 }
 
 .sticker-icon {
