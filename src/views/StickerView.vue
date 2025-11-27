@@ -4,16 +4,18 @@ import { onBeforeMount, ref } from 'vue'
 import { API_URL } from '@/config'
 import { useRoute } from 'vue-router'
 import StickerImage from '@/components/StickerImage.vue'
+import { addStickerToCart } from '@/utils/cart'
 
 const route = useRoute()
 
 const stickerName = ref('')
 const description = ref('')
 const creator = ref('A Creator')
+const stickerId = ref()
 const stickerType = ref('')
 const stickerData = ref('')
 const stickerShape = ref('square')
-const selectedMaterial = ref('')
+const selectedMaterial = ref('vinyl-glossy')
 const selectedColor = ref('red')
 
 // colors and materials that are currently in the db
@@ -34,6 +36,11 @@ const materials = [
   },
 ]
 
+const addToCart = () => {
+  addStickerToCart(stickerId.value, selectedColor.value, selectedMaterial.value, 1);
+  alert("Added to cart!")
+}
+
 onBeforeMount(async () => {
   const sticker_id = route.params.id
   const url = `${API_URL}stickers/${sticker_id}`
@@ -45,9 +52,10 @@ onBeforeMount(async () => {
 
     const data = await response.json()
 
-    stickerName.value = data.name
-    description.value = data.description
-    stickerType.value = data.sticker.type
+    stickerId.value = data.sticker_id;
+    stickerName.value = data.name;
+    description.value = data.description;
+    stickerType.value = data.sticker.type;
 
     if (stickerType.value === 'polygonal') stickerShape.value = data.sticker.shape
     if (stickerType.value === 'image') {
@@ -108,6 +116,9 @@ onBeforeMount(async () => {
           ></button>
         </div>
       </div>
+      <button class="btn btn-primary" @click="addToCart">
+        Add to cart
+      </button>
     </div>
   </div>
 </template>
