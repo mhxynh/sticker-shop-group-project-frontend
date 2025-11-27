@@ -14,7 +14,7 @@ const stickerType = ref('')
 const stickerData = ref('')
 const stickerShape = ref('square')
 const selectedMaterial = ref('');
-const color = ref('red')
+const selectedColor = ref('red')
 
 // colors and materials that are currently in the db
 // TODO: replace these with an api call
@@ -33,6 +33,10 @@ const materials = [
     price: 1.25
   },
 ]
+
+function pickColor(color: string) {
+  selectedColor.value = color
+}
 
 onBeforeMount(async () => {
   const sticker_id = route.params.id
@@ -60,12 +64,15 @@ onBeforeMount(async () => {
 <template>
   <CoreNavbar />
   <div class="container d-flex">
-    <div class="sticker-container">
+    <div
+      class="sticker-container"
+      :style="{ backgroundColor: (selectedColor === 'white' ? '#EEE' : 'white') }"
+    >
       <StickerImage
         :sticker-type="stickerType"
         :image-data="stickerData"
         :shape="stickerShape"
-        :color="color"
+        :color="selectedColor"
       />
     </div>
     <div class="card container-fluid">
@@ -86,6 +93,20 @@ onBeforeMount(async () => {
           </button>
         </div>
       </div>
+      <div class="mb-2">
+        <p class="mb-0">Color</p>
+        <div>
+          <button
+            v-for="color in colors"
+            :key="color"
+            class="color-swatch col-2"
+            :style="{ backgroundColor: color }"
+            @click="pickColor(color)"
+            :aria-label="'Pick color ' + color"
+            type="button"
+          ></button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -101,5 +122,18 @@ onBeforeMount(async () => {
   border: 1px solid gray;
   border-radius: 8px;
   padding: 16px;
+}
+.color-palette {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0;
+}
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.15);
+  padding: 0;
+  cursor: pointer;
 }
 </style>
