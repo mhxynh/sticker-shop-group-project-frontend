@@ -13,7 +13,7 @@ const creator = ref('A Creator')
 const stickerType = ref('')
 const stickerData = ref('')
 const stickerShape = ref('square')
-const selectedMaterial = ref('');
+const selectedMaterial = ref('')
 const selectedColor = ref('red')
 
 // colors and materials that are currently in the db
@@ -34,10 +34,6 @@ const materials = [
   },
 ]
 
-function pickColor(color: string) {
-  selectedColor.value = color
-}
-
 onBeforeMount(async () => {
   const sticker_id = route.params.id
   const url = `${API_URL}stickers/${sticker_id}`
@@ -54,7 +50,10 @@ onBeforeMount(async () => {
     stickerType.value = data.sticker.type
 
     if (stickerType.value === 'polygonal') stickerShape.value = data.sticker.shape
-    if (stickerType.value === 'image') stickerData.value = data.sticker.image_data
+    if (stickerType.value === 'image') {
+      stickerData.value = data.sticker.image_data;
+      selectedColor.value = 'white';
+    }
   } catch (error) {
     console.log(error)
   }
@@ -79,7 +78,7 @@ onBeforeMount(async () => {
       <h2 class="mb-2">{{ stickerName }}</h2>
       <p>{{ description }}</p>
       <p class="fw-light">By: {{ creator }}</p>
-      <div class="mb-2">
+      <div class="mb-3">
         <p class="mb-0">Material</p>
         <div>
           <button
@@ -93,15 +92,19 @@ onBeforeMount(async () => {
           </button>
         </div>
       </div>
-      <div class="mb-2">
+      <div v-if="stickerType === 'polygonal'" class="mb-2">
         <p class="mb-0">Color</p>
         <div>
           <button
             v-for="color in colors"
             :key="color"
-            class="color-swatch col-2"
-            :style="{ backgroundColor: color }"
-            @click="pickColor(color)"
+            class="color-swatch btn col-2"
+            :style="{
+              backgroundColor: color,
+              borderWidth: selectedColor === color ? '4px' : '2px',
+              borderColor: selectedColor === color ? 'gray' : '#0002'
+            }"
+            @click="selectedColor = color"
             :aria-label="'Pick color ' + color"
             type="button"
           ></button>
@@ -123,17 +126,12 @@ onBeforeMount(async () => {
   border-radius: 8px;
   padding: 16px;
 }
-.color-palette {
-  display: flex;
-  gap: 8px;
-  margin: 8px 0;
-}
+
 .color-swatch {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid rgba(0,0,0,0.15);
-  padding: 0;
-  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  margin-right: 4px;
+  border: 2px solid #0002;
 }
 </style>
