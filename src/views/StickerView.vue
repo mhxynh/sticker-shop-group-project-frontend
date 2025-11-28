@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CoreNavbar from '@/components/CoreNavbar.vue'
-import { onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { API_URL } from '@/config'
 import { useRoute } from 'vue-router'
 import StickerImage from '@/components/StickerImage.vue'
@@ -15,31 +15,21 @@ const stickerId = ref()
 const stickerType = ref('')
 const stickerData = ref('')
 const stickerShape = ref('square')
-const selectedMaterial = ref('vinyl-glossy')
-const selectedColor = ref('red')
-
-// colors and materials that are currently in the db
-// TODO: replace these with an api call
-const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'black', 'white']
-const materials = [
-  {
-    name: "vinyl-glossy",
-    price: 1
-  },
-  {
-    name: "vinyl-matte",
-    price: 0.75
-  },
-  {
-    name: "vinyl-holographic",
-    price: 1.25
-  },
-]
+const selectedMaterial = ref('')
+const selectedColor = ref('')
+const colors = ref([])
+const materials = ref([])
 
 const addToCart = () => {
   addStickerToCart(stickerId.value, selectedColor.value, selectedMaterial.value, 1);
   alert("Added to cart!")
 }
+
+const stickerBackgroundColor = computed(() => {
+  if (stickerType.value === 'image') return selectedColor.value;
+
+  return (selectedColor.value === 'white' ? '#EEE' : 'white');
+})
 
 onBeforeMount(async () => {
   const sticker_id = route.params.id
@@ -57,11 +47,14 @@ onBeforeMount(async () => {
     description.value = data.description;
     stickerType.value = data.sticker.type;
 
+    colors.value = data.sticker.colors;
+    materials.value = data.sticker.materials;
+
+    selectedColor.value = data.sticker.colors[0].color;
+    selectedMaterial.value = data.sticker.materials[0].material;
+
     if (stickerType.value === 'polygonal') stickerShape.value = data.sticker.shape
-    if (stickerType.value === 'image') {
-      stickerData.value = data.sticker.image_data;
-      selectedColor.value = 'white';
-    }
+    if (stickerType.value === 'image') stickerData.value = data.sticker.image_data;
   } catch (error) {
     console.log(error)
   }
@@ -73,7 +66,7 @@ onBeforeMount(async () => {
   <div class="container d-flex">
     <div
       class="sticker-container"
-      :style="{ backgroundColor: (selectedColor === 'white' ? '#EEE' : 'white') }"
+      :style="{ backgroundColor: stickerBackgroundColor }"
     >
       <StickerImage
         :sticker-type="stickerType"
@@ -90,29 +83,29 @@ onBeforeMount(async () => {
         <p class="mb-0">Material</p>
         <div>
           <button
-            v-for="material in materials"
-            :key="material.name"
+            v-for="item in materials"
+            :key="item.material_id"
             class="btn border me-2 mb-2"
-            :class="selectedMaterial === material.name ? 'btn-secondary' : 'btn-light'"
-            @click="selectedMaterial = material.name"
+            :class="selectedMaterial === item.material ? 'btn-secondary' : 'btn-light'"
+            @click="selectedMaterial = item.material"
           >
-            {{ material.name }}
+            {{ item.material }}
           </button>
         </div>
       </div>
-      <div v-if="stickerType === 'polygonal'" class="mb-2">
+      <div class="mb-2">
         <p class="mb-0">Color</p>
         <div>
           <button
-            v-for="color in colors"
-            :key="color"
+            v-for="item in colors"
+            :key="item"
             class="color-swatch btn me-2 mb-2 col-2"
             :style="{
-              backgroundColor: color,
-              borderWidth: selectedColor === color ? '4px' : '2px',
-              borderColor: selectedColor === color ? 'gray' : '#0002'
+              backgroundColor: item.color,
+              borderWidth: selectedColor === item.color ? '4px' : '2px',
+              borderColor: selectedColor === item.color ? 'gray' : '#0002'
             }"
-            @click="selectedColor = color"
+            @click="selectedColor = item.color"
           ></button>
         </div>
       </div>
