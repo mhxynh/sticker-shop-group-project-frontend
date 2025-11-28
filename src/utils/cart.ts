@@ -23,3 +23,11 @@ export const getCart = () => {
 
   return cart
 }
+
+export const removeStickerFromCart = (index: number) => {
+  const cart = getCart();
+
+  cart.splice(index, 1);
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+}

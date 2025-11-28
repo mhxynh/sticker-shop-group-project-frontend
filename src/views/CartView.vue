@@ -2,10 +2,18 @@
 import CoreNavbar from '@/components/CoreNavbar.vue';
 import StickerImage from '@/components/StickerImage.vue';
 import { API_URL } from '@/config';
-import { getCart } from '@/utils/cart';
+import { getCart, removeStickerFromCart } from '@/utils/cart';
 import { onBeforeMount, ref } from 'vue';
 
 const cart = ref()
+
+const removeFromCart = (index: number) => {
+  removeStickerFromCart(index);
+  // reload page to refresh cart page
+  // (we should probably do this reactively)
+  // https://developer.mozilla.org/en-US/docs/Web/API/Location/reload
+  window.location.reload();
+}
 
 onBeforeMount(async () => {
   const stickersInCart = getCart();
@@ -39,7 +47,7 @@ onBeforeMount(async () => {
     <h1>Cart</h1>
     <div v-if="cart.length" class="list-group">
       <div
-        v-for="sticker in cart"
+        v-for="(sticker, index) in cart"
         :key="sticker"
         class="list-group-item cart-item d-flex row"
       >
@@ -58,7 +66,7 @@ onBeforeMount(async () => {
           <p>Quantity: {{ sticker.quantity}}</p>
         </div>
         <div class="col-2">
-          <button>Remove from cart</button>
+          <button class="btn btn-danger" @click="() => removeFromCart(index)">Remove from cart</button>
         </div>
       </div>
     </div>
