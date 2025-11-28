@@ -39,6 +39,11 @@ onBeforeMount(async () => {
 
   cart.value = stickers;
 })
+
+function placeOrder() {
+  alert('Order placed successfully!');
+}
+
 </script>
 
 <template>
@@ -69,6 +74,16 @@ onBeforeMount(async () => {
           <button class="btn btn-danger" @click="() => removeFromCart(index)">Remove from cart</button>
         </div>
       </div>
+    </div>
+    <div class="mt-3">
+      <button
+        class="btn btn-primary"
+        @click="placeOrder"
+        :disabled="!cart || !cart.length"
+        type="button"
+      >
+        Place Order
+      </button>
     </div>
   </div>
 </template>
