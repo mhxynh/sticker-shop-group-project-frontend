@@ -3,6 +3,8 @@ import HomeView from '@/views/HomeView.vue'
 import StickerView from '@/views/StickerView.vue'
 import StickerUpload from '@/views/StickerUpload.vue'
 import CartView from '@/views/CartView.vue'
+import SignUp from '@/views/SignUp.vue'
+import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +28,17 @@ const router = createRouter({
       path: '/cart',
       name: 'cart',
       component: CartView,
-    }
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: SignUp,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+    },
   ],
 })
 
