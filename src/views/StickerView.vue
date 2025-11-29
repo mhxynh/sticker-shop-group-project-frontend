@@ -47,6 +47,7 @@ onBeforeMount(async () => {
     stickerName.value = data.name;
     description.value = data.description;
     stickerType.value = data.sticker.type;
+    creator.value = data.creator;
 
     colors.value = data.sticker.colors;
     materials.value = data.sticker.materials;
