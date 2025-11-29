@@ -6,6 +6,17 @@ import { useRoute, useRouter } from 'vue-router'
 import StickerImage from '@/components/StickerImage.vue'
 import { addStickerToCart } from '@/utils/cart'
 
+interface Color {
+  color_id: number,
+  color: string
+}
+
+interface Material {
+  material_id: number,
+  material: string,
+  price: number
+}
+
 const route = useRoute()
 const router = useRouter()
 
@@ -18,8 +29,8 @@ const stickerData = ref('')
 const stickerShape = ref('square')
 const selectedMaterial = ref()
 const selectedColor = ref()
-const colors = ref([])
-const materials = ref([])
+const colors = ref<Color[]>([])
+const materials = ref<Material[]>([])
 
 const addToCart = () => {
   addStickerToCart(stickerId.value, selectedColor.value, selectedMaterial.value, 1);
@@ -99,7 +110,7 @@ onBeforeMount(async () => {
         <div>
           <button
             v-for="item in colors"
-            :key="item"
+            :key="item.color_id"
             class="color-swatch btn me-2 mb-2 col-2"
             :style="{
               backgroundColor: item.color,

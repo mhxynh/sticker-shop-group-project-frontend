@@ -6,7 +6,29 @@ import { getCart, removeStickerFromCart, clearCart } from '@/utils/cart';
 import { onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const cart = ref([])
+interface Color {
+  color_id: number,
+  color: string
+}
+
+interface Material {
+  material_id: number,
+  material: string,
+  price: number
+}
+
+interface Cart {
+  stickerId: number,
+  name: string,
+  type: string,
+  shape: string,
+  imageData: string,
+  material: Material,
+  quantity: number,
+  color: Color
+}
+
+const cart = ref<Cart[]>([])
 const router = useRouter();
 const loading = ref(false);
 
@@ -48,7 +70,7 @@ async function placeOrder() {
 
   loading.value = true;
   try {
-    const itemsPayload = cart.value.map((sticker: any) => ({
+    const itemsPayload = cart.value.map((sticker: Cart) => ({
       stickerId: sticker.stickerId,
       materialId: sticker.material.material_id,
       colorId: sticker.color.color_id,
@@ -90,7 +112,7 @@ async function placeOrder() {
     <div v-if="cart.length" class="list-group">
       <div
         v-for="(sticker, index) in cart"
-        :key="sticker"
+        :key="sticker.stickerId"
         class="list-group-item cart-item d-flex row"
       >
         <div class="sticker-image col-2">
