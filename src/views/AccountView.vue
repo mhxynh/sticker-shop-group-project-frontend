@@ -158,7 +158,8 @@ const submitButton = async () => {
   </main>
 </template>
 
-<!-- Citation: Used ChatGPT to help stylize / Recycled style from LoginView.vue -->
+<!-- "Improve the style of this page." OpenAI. (2025). ChatGPT-5 mini (August 7 2025 version) [Large language
+model]. https://chat.openai/com/chat -->
 <style scoped>
 .account-page { padding: 28px 12px; }
 .account-card {
