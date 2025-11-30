@@ -5,6 +5,7 @@ import StickerUpload from '@/views/StickerUpload.vue'
 import CartView from '@/views/CartView.vue'
 import SignUp from '@/views/SignUp.vue'
 import LoginView from '@/views/LoginView.vue'
+import OrderConfirmView from '@/views/OrderConfirmView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
       name: 'login',
       component: LoginView,
     },
+    {
+      path: '/order/:orderId',
+      name: 'orderConfirm',
+      component: OrderConfirmView
+    }
   ],
 })
 

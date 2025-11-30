@@ -108,7 +108,7 @@ async function placeOrder() {
 
     const data = await res.json();
     alert('Order placed!');
-    router.push("/");
+    router.push(`/order/${data.order_id}`);
     clearCart();
   } catch {
     alert('Failed to place order');
