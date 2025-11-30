@@ -2,27 +2,45 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { API_URL } from '@/config';
-import CoreNavbar from '@/components/CoreNavbar.vue';
 
 const route = useRoute();
-const orderId = Number(route.params.orderId);
+const orderId = route.params.orderId;
 
-const loading = ref(true);
-const order = ref(null);
-const error = ref(null);
-
+const order = ref<any>(null);
+const error = ref("");
+ 
 async function loadOrder() {
   try {
     const res = await fetch(`${API_URL}orders/${orderId}`);
     if (!res.ok) throw new Error("Order not found");
 
     order.value = await res.json();
-  } catch (_) {
+  } catch (err) {
     error.value = "Failed to load order.";
-  } finally {
-    loading.value = false;
   }
 }
 
 onMounted(loadOrder);
 </script>
+
+<template>
+  <div class="container">
+    <h1>Order Confirmation</h1>
+
+    <p v-if="error" class="text-danger">{{ error }}</p>
+
+    <div v-else-if="order">
+      <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+      <p><strong>Account ID:</strong> {{ order.account_id }}</p>
+
+      <h3 class="mt-3">Items</h3>
+      <ul>
+        <li v-for="item in order.items" :key="item.id">
+          Sticker ID: {{ item.sticker_id }},
+          Material ID: {{ item.sticker_material_id }},
+          Size ID: {{ item.sticker_size_id }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
