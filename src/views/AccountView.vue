@@ -97,7 +97,7 @@ const submitButton = async () => {
   <main class="account-page">
     <CoreNavbar />
     <div class="container card p-4 account-card">
-      <h2 class="mb-3">Account Details</h2>
+      <h2 class="mb-3">Edit Account Details</h2>
 
       <form @submit.prevent="submitButton">
         <div class="row g-2">
@@ -151,7 +151,7 @@ const submitButton = async () => {
         </div>
 
         <div class="d-flex justify-content-end mt-4">
-          <button type="submit" class="btn btn-primary btn-submit">Create account</button>
+          <button type="submit" class="btn btn-primary btn-submit">Submit</button>
         </div>
       </form>
     </div>
