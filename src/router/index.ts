@@ -6,6 +6,7 @@ import CartView from '@/views/CartView.vue'
 import SignupView from '@/views/SignupView.vue'
 import LoginView from '@/views/LoginView.vue'
 import AccountView from '@/views/AccountView.vue'
+import OrderConfirmView from '@/views/OrderConfirmView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +46,11 @@ const router = createRouter({
       name: 'account',
       component: AccountView,
     },
+    {
+      path: '/order/:orderId',
+      name: 'orderConfirm',
+      component: OrderConfirmView
+    }
   ],
 })
 
