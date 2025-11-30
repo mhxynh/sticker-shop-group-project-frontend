@@ -118,35 +118,5 @@ const submitButton = async () => {
   </main>
 </template>
 
-<!-- "Improve the style of this page." OpenAI. (2025). ChatGPT-5 mini (August 7 2025 version) [Large language
-model]. https://chat.openai/com/chat -->
 <style scoped>
-.signup-page { padding: 28px 12px; }
-.signup-card {
-  max-width: 900px;
-  margin: 18px auto;
-  border-radius: 12px;
-  box-shadow: 0 8px 28px rgba(14,21,47,0.06);
-  background: linear-gradient(180deg, #ffffff, #fafafa);
-}
-h2 { font-weight: 600; }
-.form-label { font-weight: 500; font-size: 14px; }
-.form-control {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #dcdfe6;
-  box-shadow: none;
-}
-.form-control:focus {
-  border-color: #7aa8ff;
-  box-shadow: 0 0 0 4px rgba(45,125,244,0.08);
-  outline: none;
-}
-.btn-submit { padding: 10px 18px; border-radius: 8px; }
-.form-text { font-size: 12px; margin-top: 4px; color: #6b7280; }
-
-@media (max-width: 575px) {
-  .signup-card { padding: 18px; }
-  .btn-submit { width: 100%; }
-}
 </style>
