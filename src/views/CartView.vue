@@ -17,6 +17,13 @@ interface Material {
   price: number
 }
 
+interface Size {
+  size_id: number,
+  sticker_id: number,
+  length: number,
+  width: number
+}
+
 interface Cart {
   stickerId: number,
   name: string,
@@ -25,7 +32,9 @@ interface Cart {
   imageData: string,
   material: Material,
   quantity: number,
-  color: Color
+  color: Color,
+  size: Size,
+  price: number
 }
 
 const cart = ref<Cart[]>([])
@@ -48,6 +57,8 @@ onBeforeMount(async () => {
 
     const data = await response.json();
 
+    const price = stickersInCart[i].material.price * ((stickersInCart[i].size.length * stickersInCart[i].size.width) / 100);
+
     stickers.push({
       stickerId: data.sticker_id,
       name: data.name,
@@ -57,6 +68,8 @@ onBeforeMount(async () => {
       material: stickersInCart[i].material,
       quantity: stickersInCart[i].quantity,
       color: stickersInCart[i].color,
+      size: stickersInCart[i].size,
+      price
     })
   }
 
@@ -128,8 +141,10 @@ async function placeOrder() {
           <p>Material: {{ sticker.material.material }}</p>
           <p>Color: {{ sticker.color.color }}</p>
           <p>Quantity: {{ sticker.quantity}}</p>
+          <p>Size: {{ sticker.size.length}} cm x {{ sticker.size.width }} cm</p>
         </div>
         <div class="col-2">
+          <h2>${{ sticker.price }}</h2>
           <button class="btn btn-danger" @click="() => removeFromCart(index)">Remove from cart</button>
         </div>
       </div>
