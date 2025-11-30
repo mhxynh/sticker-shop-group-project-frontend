@@ -50,7 +50,7 @@ onBeforeMount(async () => {
 <template>
   <div class="container">
     <h1>Cart</h1>
-    <div v-if="cart.length" class="list-group">
+    <div v-if="cart?.length" class="list-group">
       <div
         v-for="(sticker, index) in cart"
         :key="sticker"
