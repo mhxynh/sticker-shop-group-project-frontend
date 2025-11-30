@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import CoreNavbar from '@/components/CoreNavbar.vue';
 import StickerImage from '@/components/StickerImage.vue';
 import { API_URL } from '@/config';
 import { getCart, removeStickerFromCart } from '@/utils/cart';
@@ -49,7 +48,6 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <CoreNavbar />
   <div class="container">
     <h1>Cart</h1>
     <div v-if="cart.length" class="list-group">
