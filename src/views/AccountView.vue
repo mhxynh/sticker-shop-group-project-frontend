@@ -4,6 +4,10 @@ import { API_URL } from '@/config';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
+const router = useRouter();
+
+const accountId = localStorage.getItem('account_id');
+
 const firstName = ref("");
 const middleName = ref("");
 const lastName = ref("");
@@ -13,13 +17,6 @@ const phoneNumber = ref("");
 const street = ref("");
 const city = ref("");
 const postalCode = ref("");
-
-const loading = ref(true);
-const message = ref("");
-
-const router = useRouter();
-
-const accountId = localStorage.getItem('account_id');
 
 onMounted(async () => {
   if (!accountId) {
@@ -33,21 +30,19 @@ onMounted(async () => {
       router.push('/login');
       return;
     }
-    const data = await res.json().catch(() => null);
+    const data = await res.json();
     if (data) {
-      firstName.value = data.first_name ?? data.firstName ?? "";
-      middleName.value = data.middle_name ?? data.middleName ?? "";
-      lastName.value = data.last_name ?? data.lastName ?? "";
-      email.value = data.email_address ?? data.email ?? "";
-      phoneNumber.value = data.phone_number ?? data.phoneNumber ?? "";
-      street.value = data.street ?? "";
-      city.value = data.city ?? "";
-      postalCode.value = data.postal_code ?? data.postalCode ?? "";
+      firstName.value = data.first_name;
+      middleName.value = data.middle_name;
+      lastName.value = data.last_name;
+      email.value = data.email_address;
+      phoneNumber.value = data.phone_number;
+      street.value = data.street;
+      city.value = data.city;
+      postalCode.value = data.postal_code;
     }
-  } catch (err) {
-    console.error(err);
-  } finally {
-    loading.value = false;
+  } catch {
+    alert("Error fetching account details");
   }
 });
 
@@ -58,15 +53,15 @@ const submitButton = async () => {
   }
 
   const payload = {
-    firstName: firstName.value || null,
-    middleName: middleName.value || null,
-    lastName: lastName.value || null,
-    email: email.value || null,
-    password: password.value || null,
-    phoneNumber: phoneNumber.value || null,
-    street: street.value || null,
-    city: city.value || null,
-    postalCode: postalCode.value || null,
+    firstName: firstName.value,
+    middleName: middleName.value,
+    lastName: lastName.value,
+    email: email.value,
+    password: password.value,
+    phoneNumber: phoneNumber.value,
+    street: street.value,
+    city: city.value,
+    postalCode: postalCode.value,
   };
 
   try {
@@ -77,18 +72,13 @@ const submitButton = async () => {
     });
 
     if (!res.ok) {
-      const text = await res.text();
-      console.error('Update failed:', res.status, text);
-      message.value = 'Error updating account';
-      return;
+      return alert("Account failed to update")
     }
 
-    await res.json().catch(() => null);
-    message.value = 'Account updated successfully';
-    password.value = '';
+    await res.json();
+    alert("Account updated!")
   } catch (err) {
     console.error('Update error:', err);
-    message.value = 'Error updating account';
   }
 };
 </script>

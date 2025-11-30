@@ -37,13 +37,10 @@ const submitButton = async () => {
     });
 
     if (!res.ok) {
-      const text = await res.text();
-      console.error("Signup failed:", res.status, text);
-      alert("Signup failed. Please try again.");
-      return;
+      return alert("Signup failed. Please try again.");
     }
 
-    const data = await res.json().catch(() => null);
+    await res.json();
     router.push('/login');
   } catch (err) {
     console.error("Signup error:", err);
