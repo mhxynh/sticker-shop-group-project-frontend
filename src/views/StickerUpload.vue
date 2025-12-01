@@ -21,11 +21,6 @@ const handleFileUpload = (event: any) => {
 const submitSticker = async () => {
   // Guide I used to upload images and data to backend:
   // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest_API/Using_FormData_Objects
-  if (!account_id) {
-    alert('You must be logged in to upload a sticker')
-    return
-  }
-
   try {
     const formData = new FormData();
     formData.append("imageData", image.value);
