@@ -11,7 +11,7 @@ const order = ref();
 async function loadOrder() {
   const accountId = localStorage.getItem('account_id');
   try {
-    const res = await fetch(`${API_URL}orders/${orderId}/${accountId}`);
+    const res = await fetch(`${API_URL}orders/${accountId}/${orderId}`);
     if (!res.ok) {
       alert("Failed to fetch order");
     };
