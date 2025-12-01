@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { API_URL } from '@/config';
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const account_id = localStorage.getItem('account_id');
 const image = ref();
@@ -30,25 +33,15 @@ const submitSticker = async () => {
     formData.append("description", description.value);
     formData.append("account_id", account_id);
 
-    const res = await fetch(`${API_URL}stickers/create`, {
-      method: "POST",
-      body: formData,
-    });
-    
-    if (!res.ok) {
-      const text = await res.text().catch(() => '')
-      console.error('Upload failed', res.status, text)
-      alert('Sticker upload failed')
-      return
-    }
-
-    alert('Sticker uploaded successfully!')
-    router.push('/')
-  } catch (err) {
-    console.error('Upload error', err)
-    alert('Sticker upload error')
-  }
+  fetch(`${API_URL}stickers/create`, {
+    method: "POST",
+    body: formData,
+  });
 };
+
+onBeforeMount(() => {
+  if (!account_id) router.push("/login")
+})
 </script>
 
 <template>
