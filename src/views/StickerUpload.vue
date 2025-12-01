@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import CoreNavbar from '@/components/CoreNavbar.vue'
 import { API_URL } from '@/config';
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+
+const account_id = localStorage.getItem('account_id');
 const image = ref();
 const name = ref("");
 const description = ref("");
@@ -22,7 +25,7 @@ const submitSticker = async () => {
   formData.append("imageData", image.value);
   formData.append("name", name.value);
   formData.append("description", description.value);
-  formData.append("account_id", "1"); // placeholder
+  formData.append("account_id", account_id);
 
   fetch(`${API_URL}stickers/create`, {
     method: "POST",
@@ -30,12 +33,13 @@ const submitSticker = async () => {
   });
 };
 
-
+onBeforeMount(() => {
+  if (!account_id) router.push("/login")
+})
 </script>
 
 <template>
   <main>
-    <CoreNavbar />
     <div class="container card p-3">
       <h1>Upload Sticker</h1>
       <div class="mb-3">

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import CoreNavbar from '@/components/CoreNavbar.vue'
 import StickerGridItem from '@/components/StickerGridItem.vue'
 import { API_URL } from '@/config';
 import { onBeforeMount, ref } from 'vue';
@@ -56,7 +55,6 @@ onBeforeMount(async () => {
 
 <template>
   <main>
-    <CoreNavbar />
     <div class="container">
       <div class="row gy-4">
         <div v-for="sticker in stickers" :key="sticker.sticker_id" class="col-6 col-md-4 col-lg-3">
