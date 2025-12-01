@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { RouterLink, useRouter } from 'vue-router'
+import { ref } from 'vue';
 
 const router = useRouter();
-const isLoggedIn = localStorage.getItem('isLoggedIn') == 'true';
+const isLoggedIn = ref(localStorage.getItem('isLoggedIn') == 'true');
 
 const logoutButton = () => {
   localStorage.removeItem('account_id');
-  localStorage.setItem('isLoggedIn', 'false');
+  localStorage.removeItem('isLoggedIn');
+  isLoggedIn.value = false;
   router.push('/');
-  setTimeout(() => {
-    window.location.reload();
-  }, 50);
 };
 </script>
 
@@ -27,9 +26,9 @@ const logoutButton = () => {
           <RouterLink to="/account" class="nav-link fs-4">
             <FontAwesomeIcon icon="user-circle"/>
           </RouterLink>
-          <a @click.prevent="logoutButton" href="#" class="nav-link fs-4">
+          <button @click="logoutButton" class="nav-link fs-4">
             <FontAwesomeIcon icon="sign-out-alt"/>
-          </a>
+          </button>
         </template>
         <template v-else>
           <RouterLink to="/signup" class="nav-link fs-4">
