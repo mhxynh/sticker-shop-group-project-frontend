@@ -40,7 +40,7 @@ const submitSticker = async () => {
     
     alert('Sticker uploaded successfully!')
     router.push('/')
-  } catch (err) {
+  } catch {
     alert('Sticker upload error')
   }
 };
