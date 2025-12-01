@@ -6,17 +6,18 @@ import { API_URL } from '@/config';
 const route = useRoute();
 const orderId = route.params.orderId;
 
-const order = ref<any>(null);
-const error = ref("");
+const order = ref();
  
 async function loadOrder() {
   const accountId = localStorage.getItem('account_id');
   try {
     const res = await fetch(`${API_URL}orders/${orderId}/${accountId}`);
-    if (!res.ok) throw new Error("Order not found");
+    if (!res.ok) {
+      alert("Failed to fetch order");
+    };
     order.value = await res.json();
-  } catch (err) {
-    error.value = "Failed to load order.";
+  } catch {
+    console.log("Failed to load order");
   }
 }
 
@@ -26,10 +27,7 @@ onMounted(loadOrder);
 <template>
   <div class="container">
     <h1>Order Confirmation</h1>
-
-    <p v-if="error" class="text-danger">{{ error }}</p>
-
-    <div v-else-if="order">
+    <div v-if="order">
       <p><strong>Order ID:</strong> {{ order.order_id }}</p>
       <p><strong>Account ID:</strong> {{ order.account_id }}</p>
 
@@ -42,5 +40,6 @@ onMounted(loadOrder);
         </li>
       </ul>
     </div>
+    <p v-else class="text-danger">Failed to load order</p>
   </div>
 </template>

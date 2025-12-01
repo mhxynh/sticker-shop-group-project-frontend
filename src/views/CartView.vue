@@ -83,7 +83,7 @@ onBeforeMount(async () => {
 })
 
 async function placeOrder() {
-  if (!cart.value || cart.value.length === 0) {
+  if (!cart.value?.length) {
     return alert('Your cart is empty');
   }
 
@@ -156,7 +156,7 @@ async function placeOrder() {
     </div>
     <div class="mt-3">
       <button
-        v-if="cart.length"
+        v-if="cart?.length"
         class="btn btn-primary"
         @click="placeOrder"
         type="button"
