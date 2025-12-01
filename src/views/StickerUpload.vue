@@ -39,7 +39,6 @@ const submitSticker = async () => {
     });
     
     if (!res.ok) {
-      const text = await res.text().catch(() => '')
       alert('Sticker upload failed')
       return
     }
