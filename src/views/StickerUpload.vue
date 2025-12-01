@@ -33,10 +33,22 @@ const submitSticker = async () => {
     formData.append("description", description.value);
     formData.append("account_id", account_id);
 
-  fetch(`${API_URL}stickers/create`, {
-    method: "POST",
-    body: formData,
-  });
+    const res = await fetch(`${API_URL}stickers/create`, {
+      method: "POST",
+      body: formData,
+    });
+    
+    if (!res.ok) {
+      const text = await res.text().catch(() => '')
+      alert('Sticker upload failed')
+      return
+    }
+    
+    alert('Sticker uploaded successfully!')
+    router.push('/')
+  } catch (err) {
+    alert('Sticker upload error')
+  }
 };
 
 onBeforeMount(() => {
